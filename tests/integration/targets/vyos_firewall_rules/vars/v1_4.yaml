@@ -69,7 +69,6 @@ replaced_commands:
   - set firewall ipv4 name INBOUND rule 104 action 'reject'
   - set firewall ipv4 name INBOUND rule 104 description 'Rule 104 is configured by Ansible'
   - set firewall ipv4 name INBOUND rule 104
-  - set firewall ipv4 name INBOUND rule 104 protocol 'udp'
 
 overridden_commands:
   - delete firewall ipv6 name UPLINK
