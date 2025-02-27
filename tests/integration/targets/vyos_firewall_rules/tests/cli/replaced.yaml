@@ -28,6 +28,16 @@
                     description: Rule 101 is configured by Ansible
                     protocol: tcp
 
+                  - number: 103
+                    action: accept
+                    description: Rule 103 is configured by Ansible
+                    state:
+                      related: true
+                      established: true
+                    source:
+                      group:
+                        address_group: inbound #only modifying this field from a IP to a group
+
                   - number: 104
                     action: reject
                     description: Rule 104 is configured by Ansible

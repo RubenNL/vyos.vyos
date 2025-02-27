@@ -69,7 +69,8 @@ replaced_commands:
   - delete firewall ipv6-name UPLINK rule 1
   - delete firewall ipv6-name UPLINK rule 2
   - delete firewall name INBOUND rule 102
-  - delete firewall name INBOUND rule 103
+  - delete firewall name INBOUND rule 103 source address
+  - set firewall name INBOUND rule 103 source group address-group 'inbound'
   - set firewall name INBOUND rule 104 action 'reject'
   - set firewall name INBOUND rule 104 description 'Rule 104 is configured by Ansible'
   - set firewall name INBOUND rule 104
