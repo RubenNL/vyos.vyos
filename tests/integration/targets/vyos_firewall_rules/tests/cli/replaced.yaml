@@ -36,7 +36,7 @@
                       established: true
                     source:
                       group:
-                        address_group: inbound #only modifying this field from a IP to a group
+                        address_group: inbound # only modifying this field from a IP to a group
 
                   - number: 104
                     action: reject
