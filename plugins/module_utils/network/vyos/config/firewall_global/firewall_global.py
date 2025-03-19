@@ -438,6 +438,14 @@ class Firewall_global(ConfigBase):
                         + " "
                         + member[self._get_mem_type(type)],
                     )
+            elif not opr and not have:
+                commands.append(
+                    cmd
+                    + " "
+                    + name
+                    + " "
+                    + self._grp_type(type),
+                )
         return commands
 
     def _get_mem_type(self, group):
