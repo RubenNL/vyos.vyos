@@ -275,7 +275,7 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
                                 afi="ipv4",
                                 name="DELETE-HOSTS",
                                 description="The (single) last address from this group will be deleted in the tests",
-                                #No members here
+                                # No members here
                             ),
                             dict(
                                 afi="ipv6",
