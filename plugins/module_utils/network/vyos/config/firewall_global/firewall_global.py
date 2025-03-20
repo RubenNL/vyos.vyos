@@ -380,7 +380,7 @@ class Firewall_global(ConfigBase):
                             if not (h and _in_target(h, key)) and not self._is_grp_del(
                                 h,
                                 want,
-                                key,
+                                "name",
                             ):
                                 commands.append(cmd + " " + want["name"] + " " + key)
                         elif key == "members":
