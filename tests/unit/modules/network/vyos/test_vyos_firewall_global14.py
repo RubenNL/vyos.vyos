@@ -272,6 +272,12 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
                                 ],
                             ),
                             dict(
+                                afi="ipv4",
+                                name="DELETE-HOSTS",
+                                description="The (single) last address from this group will be deleted in the tests",
+                                # No members here
+                            ),
+                            dict(
                                 afi="ipv6",
                                 name="LOCAL-v6",
                                 description="This group has the hosts address lists of this machine",
@@ -285,7 +291,7 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
                             dict(
                                 afi="ipv4",
                                 name="RND",
-                                description="This group has the Management network addresses",
+                                # Deleted the description here.
                                 members=[dict(address="192.0.2.0/24")],
                             ),
                             dict(
@@ -310,6 +316,7 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
         commands = [
             "delete firewall group address-group RND-HOSTS address 192.0.2.3",
             "delete firewall group address-group RND-HOSTS address 192.0.2.5",
+            "delete firewall group address-group DELETE-HOSTS address",
             "delete firewall global-options all-ping",
             "delete firewall global-options state-policy related",
             "delete firewall global-options ipv6-src-route",
@@ -317,6 +324,7 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
             "set firewall global-options state-policy invalid action 'reject'",
             "set firewall group address-group RND-HOSTS address 192.0.2.7",
             "set firewall group address-group RND-HOSTS address 192.0.2.9",
+            "delete firewall group network-group RND description",
             "delete firewall group ipv6-address-group LOCAL-v6 address fdec:2503:89d6:59b3::1",
             "set firewall group ipv6-address-group LOCAL-v6 address fdec:2503:89d6:59b3::2",
             "delete firewall group port-group SSH port 22",
@@ -347,6 +355,14 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
                                     dict(address="192.0.2.3"),
                                     dict(address="192.0.2.5"),
                                 ],
+                            ),
+                            dict(
+                                afi="ipv4",
+                                name="DELETE-HOSTS",
+                                description="The (single) last address from this group will be deleted in the tests",
+                                members=[
+                                    dict(address='1.2.3.4'),
+                                ]
                             ),
                             dict(
                                 afi="ipv6",
@@ -450,6 +466,7 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
             "delete firewall global-options send-redirects",
             "set firewall global-options state-policy related action 'drop'",
             "delete firewall global-options state-policy related log-level",
+            "delete firewall group address-group DELETE-HOSTS",
             "set firewall global-options state-policy invalid action 'reject'",
             "set firewall group address-group RND-HOSTS address 192.0.2.7",
             "set firewall group address-group RND-HOSTS address 192.0.2.9",

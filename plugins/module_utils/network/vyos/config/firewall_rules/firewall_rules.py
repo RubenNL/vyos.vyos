@@ -176,9 +176,9 @@ class Firewall_rules(ConfigBase):
                     # configuration's rule set).
                     rs_id = self._rs_id(rs, h["afi"])
                     wanted_rule_set = self.search_r_sets_in_have(want, rs_id, "r_list")
-                    if self._is_same_rs(remove_empties(wanted_rule_set), remove_empties(rs)):
-                        continue
                     if wanted_rule_set is not None:
+                        if self._is_same_rs(remove_empties(wanted_rule_set), remove_empties(rs)):
+                            continue
                         # Remove the rules that we already have if the wanted
                         # rules exist under the same name.
                         commands.extend(
@@ -189,6 +189,8 @@ class Firewall_rules(ConfigBase):
                                 opr=False,
                             ),
                         )
+                    else:
+                        commands.append(self._compute_command(rs_id, remove=True))
         # Merge the desired configuration into what we already have.
         commands.extend(self._state_merged(want, have))
         return commands
@@ -1131,9 +1133,18 @@ class Firewall_rules(ConfigBase):
             return True
         elif isinstance(w, list) and isinstance(rs, list):
             try:
-                sorted_list1 = sorted(w, key=lambda x: str(x))  # pylint: disable=unnecessary-lambda
-                sorted_list2 = sorted(rs, key=lambda x: str(x))  # pylint: disable=unnecessary-lambda
+                def comparison(x):
+                    if 'name' in x:
+                        return x['name']
+                    if 'number' in x:
+                        return x['number']
+                    return str(x)
+
+                sorted_list1 = sorted(w, key=comparison)
+                sorted_list2 = sorted(rs, key=comparison)
             except TypeError:
+                return False
+            if len(sorted_list1) != len(sorted_list2):
                 return False
             return all(self._is_same_rs(x, y) for x, y in zip(sorted_list1, sorted_list2))
         else:
