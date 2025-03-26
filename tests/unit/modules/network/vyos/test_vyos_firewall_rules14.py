@@ -1522,23 +1522,20 @@ class TestVyosFirewallRulesModule14(TestVyosModule):
         )
         commands = [
             "delete firewall ipv6 name V6-INGRESS",
-            "delete firewall ipv6 name EGRESS",
-            "delete firewall ipv4 name V4-INGRESS",
+            "delete firewall ipv6 name EGRESS rule 20 icmp type-name echo-request",
+            "delete firewall ipv4 name V4-INGRESS rule 101 description",
+            "delete firewall ipv4 name V4-INGRESS rule 101 disable",
+            "delete firewall ipv4 name V4-INGRESS rule 101 packet-length-exclude 100",
+            "delete firewall ipv4 name V4-INGRESS rule 101 packet-length-exclude 300",
             "delete firewall ipv4 name EGRESS",
             "delete firewall ipv4 input filter",
             "delete firewall ipv4 output filter",
             "delete firewall ipv6 input filter",
             "delete firewall ipv6 output filter",
             "delete firewall ipv4 name IF-TEST",
-            "set firewall ipv4 name V4-INGRESS rule 101",
-            "set firewall ipv4 name V4-INGRESS default-log",
             "set firewall ipv4 name V4-INGRESS description 'This is IPv4 INGRESS rule set'",
-            "set firewall ipv4 name V4-INGRESS default-action 'accept'",
             "set firewall ipv4 name V4-INGRESS rule 101 protocol 'udp'",
-            "set firewall ipv4 name V4-INGRESS rule 101 action 'accept'",
             "set firewall ipv6 name EGRESS description 'This rule-set is configured by Ansible RM'",
-            "set firewall ipv6 name EGRESS default-action 'reject'",
-            "set firewall ipv6 name EGRESS rule 20",
             "set firewall ipv6 name EGRESS rule 20 protocol 'udp'",
             "set firewall ipv6 name EGRESS rule 20 action 'accept'"
         ]

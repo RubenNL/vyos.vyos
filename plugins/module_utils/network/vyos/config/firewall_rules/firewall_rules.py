@@ -209,18 +209,17 @@ class Firewall_rules(ConfigBase):
                     w = self.search_r_sets_in_have(want, rs_id, "r_list")
                     if self._is_same_rs(remove_empties(w), remove_empties(rs)):
                         continue
-                    else:
+                    if w is None:
                         commands.append(self._compute_command(rs_id, remove=True))
-                        # Blank out the only rule set that it is removed.
-                        for entry in have:
-                            if entry['afi'] == rs_id['afi'] and rs_id['name']:
-                                entry["rule_sets"] = [
-                                    rule_set for rule_set in entry["rule_sets"] if rule_set.get("name") != rs_id['name']
-                                ]
-                            elif entry['afi'] == rs_id['afi'] and rs_id['filter']:
-                                entry["rule_sets"] = [
-                                    rule_set for rule_set in entry["rule_sets"] if rule_set.get("filter") != rs_id['filter']
-                                ]
+                        continue
+                    commands.extend(
+                        self._add_r_sets(
+                            h["afi"],
+                            want=rs,
+                            have=w,
+                            opr=False,
+                        ),
+                    )
             commands.extend(self._state_merged(want, have))
         return commands
 

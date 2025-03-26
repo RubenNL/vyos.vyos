@@ -67,6 +67,7 @@ class TestVyosFirewallRulesModule13(TestVyosModule):
         )
         self.get_os_version = self.mock_get_os_version.start()
         self.get_os_version.return_value = "1.2"
+        self.maxDiff = None
 
     def tearDown(self):
         super(TestVyosFirewallRulesModule13, self).tearDown()
@@ -1156,18 +1157,14 @@ class TestVyosFirewallRulesModule13(TestVyosModule):
         )
         commands = [
             "delete firewall ipv6-name V6-INGRESS",
-            "delete firewall ipv6-name EGRESS",
-            "delete firewall name V4-INGRESS",
+            "delete firewall ipv6-name EGRESS rule 20 icmp type-name echo-request",
             "delete firewall name EGRESS",
-            "set firewall name V4-INGRESS rule 101",
-            "set firewall name V4-INGRESS description 'This is IPv4 INGRESS rule set'",
-            "set firewall name V4-INGRESS default-action 'accept'",
-            "set firewall name V4-INGRESS enable-default-log",
+            "delete firewall name V4-INGRESS rule 101 description",
+            "delete firewall name V4-INGRESS rule 101 disable",
+            "delete firewall name V4-INGRESS rule 101 fragment",
+            "delete firewall name V4-INGRESS rule 101 ipsec",
             "set firewall name V4-INGRESS rule 101 protocol 'udp'",
-            "set firewall name V4-INGRESS rule 101 action 'accept'",
             "set firewall ipv6-name EGRESS description 'This rule-set is configured by Ansible RM'",
-            "set firewall ipv6-name EGRESS default-action 'reject'",
-            "set firewall ipv6-name EGRESS rule 20",
             "set firewall ipv6-name EGRESS rule 20 protocol 'udp'",
             "set firewall ipv6-name EGRESS rule 20 action 'accept'"
         ]
