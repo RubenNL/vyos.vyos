@@ -550,7 +550,7 @@ class Firewall_global(ConfigBase):
                         afi = None
                     afi = None
                 for key, val in iteritems(w):
-                    if val and key != "afi":
+                    if val is not None and key != "afi":
                         if opr and key in l_set and not (h and self._is_w_same(w, h, key)):
                             commands.append(
                                 self._form_attr_cmd(
@@ -571,7 +571,7 @@ class Firewall_global(ConfigBase):
                                     ),
                                 )
                                 continue
-                            if not (h and self._in_target(h, key)) and not self._is_del(l_set, h):
+                            if not (h and in_target_not_none(h, key)) and not self._is_del(l_set, h):
                                 commands.append(
                                     self._form_attr_cmd(
                                         attr=key,
@@ -662,7 +662,7 @@ class Firewall_global(ConfigBase):
         This function construct the add/delete command based on passed attributes.
         :param key: parent key.
         :param attr: attribute name
-        :param value: value
+        :param value: valuereply
         :param remove: True/False.
         :param opr: True/False.
         :return: generated command.
